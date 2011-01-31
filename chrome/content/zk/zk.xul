@@ -8,6 +8,7 @@
     <commandset id="mainCommandSet"> 
         <command id="cmd_TryMeBtn" oncommand="Firebug.ZKModel.onTryMeBtn(FirebugContext)"/>
         <command id="cmd_OutDomBtn" oncommand="Firebug.ZKModel.onOutDomBtn(FirebugContext)"/>
+        <command id="cmd_OutZulBtn" oncommand="Firebug.ZKModel.onOutZulBtn(FirebugContext)"/>
     </commandset> 
     
     <toolbar id="fbToolbar" align="center"> 
@@ -17,6 +18,7 @@
                 <toolbarbutton id="editBtn" label="Edit Service" tooltiptext="Edit Service URL" oncommand="Firebug.ZKModel.onChangeURL(FirebugContext)"/>
                 <toolbarbutton id="tryMeBtn" tooltiptext="Try Me" command="cmd_TryMeBtn"/>
                 <toolbarbutton id="outDomBtn" tooltiptext="Output Dom Tree" command="cmd_OutDomBtn"/>
+                <toolbarbutton id="outZulBtn" tooltiptext="Output Widget Tree To Zul" command="cmd_OutZulBtn"/>
             </hbox> 
         </hbox> 
     </toolbar> 

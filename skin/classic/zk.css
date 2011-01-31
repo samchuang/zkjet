@@ -5,13 +5,17 @@
     list-style-image: url(chrome://zk/skin/cmps/tree.png);
     display: none;
 }
+#outZulBtn {
+    list-style-image: url(chrome://zk/skin/cmps/w4z.png);
+    display: none;
+}
 #zkSBIcon {
     list-style-image: url(chrome://zk/skin/favicon.ico);
     cursor: pointer;
 }
 .zscriptButton {
-		position: relative;
-		top: 3px;
+	position: relative;
+	top: 3px;
     padding: 3px 4px;
     border: 1px solid transparent;
     font-weight: bold;

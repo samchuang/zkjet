@@ -40,6 +40,7 @@ Firebug.ZKModel = extend(Firebug.Module, {
   			zk = obj.zk;
   		
   		$("outDomBtn").style.display = zk && zk.version ? "block" : "none";
+  		$("outZulBtn").style.display = zk && zk.version ? "block" : "none";
   		
 		var isZKPanel = panel && panel.name == panelName,
 			hwButtons = browser.chrome.$("fbZKButtons");
@@ -60,6 +61,25 @@ Firebug.ZKModel = extend(Firebug.Module, {
 				obj.zDebug.outDomTree(zk.Desktop._dt.firstChild);
 			} else {
   				obj.zDebug.dumpDomTree(zk.Desktop._dt.firstChild);
+			}
+  			});
+    },
+    onOutZulBtn: function (context) {
+    	var obj = FirebugContext.window.wrappedJSObject || FirebugContext.window,
+  			zk = obj.zk;
+  		if (!zk || !zk.version) {
+  			alert("This is not ZK 5 version!");
+  			$("outZulBtn").style.display = "none";
+  			return;
+  		}
+  		obj.zk.load('zk.debug', function () {
+			// old version
+			if (obj.zDebug.dumpWidgetTree4Zul) {
+				obj.zDebug.dumpWidgetTree4Zul(zk.Desktop._dt.firstChild);
+			} else {
+				alert("This is not a latest ZK 5 version!");
+	  			$("outZulBtn").style.display = "none";
+	  			return;
 			}
   			});
     },
