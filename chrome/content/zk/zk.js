@@ -77,11 +77,16 @@ Firebug.ZKModel = extend(Firebug.Module, {
 			if (obj.zDebug.dumpWidgetTree4Zul) {
 				obj.zDebug.dumpWidgetTree4Zul(zk.Desktop._dt.firstChild);
 			} else {
-				alert("This is not a latest ZK 5 version!");
-	  			$("outZulBtn").style.display = "none";
-	  			return;
+	  			var scriptSource = getResource("chrome://zk/content/debugger.js");
+	  			obj.$eval(scriptSource);
+	  			if (obj.zDebug.dumpWidgetTree4Zul)
+	  				obj.zDebug.dumpWidgetTree4Zul(zk.Desktop._dt.firstChild);
+	  			else {
+	  				alert("This is not a latest ZK 5 version!");
+	  				$("outZulBtn").style.display = "none";
+	  			}
 			}
-  			});
+  		});
     },
     onTryMeBtn: function(context) {    	
 		var input = $("tmUrl"),
