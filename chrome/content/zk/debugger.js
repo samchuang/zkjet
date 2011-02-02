@@ -13,8 +13,11 @@ This program is distributed under LGPL Version 3.0 in the hope that
 it will be useful, but WITHOUT ANY WARRANTY.
 */
 (function(){
-
-//zk.loadCSS(zk.ajaxURI('web/js/zk/debug/debugger.css.dsp', {au:true}));
+var cls = 'z-debug-domtree';
+if (zk.loadCSS) {
+	zk.loadCSS(zk.ajaxURI('web/js/zk/debug/debugger.css.dsp', {au:true}));	
+	cls = 'z-debug';
+}
 
 function _space(deep) {
 	var out = [];
@@ -79,17 +82,20 @@ function _dumpAttrs(wgt) {
 function _dumpWgt4Zul(out, wgt, nLevel, inf) {
 	inf.cnt++;
 	var nm = wgt.widgetName;
-	
-	if (nm == 'native') {
-		nm = wgt.$n() ? 'h:' + wgt.$n().tagName : wgt.epilog ? 'h:' + (wgt.epilog.match(/<\/?(.+)>/)[1]) : wgt.widgetName;
-		if (nm == 'native') {
+	if (nm == undefined) {
+		// old version
+		var cn = wgt.className;
+		nm = wgt.widgetName = cn.substring(cn.lastIndexOf('.') + 1, cn.length).toLowerCase();
+	}
+	if (nm == 'native' || nm == 'widget' /* widget is old version*/) {
+		nm = wgt.$n() ? 'h:' + wgt.$n().tagName.toLowerCase() : wgt.epilog ? 'h:' + (wgt.epilog.match(/<\/?(.+)>/)[1]) : wgt.widgetName;
+		if (nm == 'native'|| nm == 'widget') {
 			if (wgt.prolog.trim())
 				nm = 'h:' + wgt.prolog.match(/<(.+)\/>/)[1];
 			else
 				nm = 'h:span';
 		}
 	}
-	
 	if (nm == 'script' || nm == 'paging' && wgt.parent.$instanceof(zul.mesh.MeshWidget))
 		return;
 	else if (nm == 'text')
@@ -205,7 +211,7 @@ zk.debug.Debugger = zk.$extends(zk.Object, {
 		if (!console) {
 			console = document.createElement("div");
 			document.body.appendChild(console);
-			jq(console).replaceWith('<div id="' + this.outId +'" class="z-debug"></div>');
+			jq(console).replaceWith('<div id="' + this.outId +'" class="' + cls + '"></div>');
 			console = jq(this.outId, zk)[0];
 		}
 		return console;
@@ -244,11 +250,11 @@ zk.debug.Debugger = zk.$extends(zk.Object, {
 	},
 	_dump: function (header, content) {
 		var console = this.getConsole();
-		console.innerHTML += '<div class="z-debug-header">'
-				+ '<div class="z-debug-close" onclick="jq(\'#'
-				+ this.outId + '\').remove()" onmouseover="jq(this).addClass(\'z-debug-close-over\');"'
-				+ ' onmouseout="jq(this).removeClass(\'z-debug-close-over\');"></div>' + header
-				+ '</div><div class="z-debug-body">' + content + '</div>';
+		console.innerHTML += '<div class="' + cls + '-header">'
+				+ '<div class="' + cls + '-close" onclick="jq(\'#'
+				+ this.outId + '\').remove()" onmouseover="jq(this).addClass(\'' + cls + '-close-over\');"'
+				+ ' onmouseout="jq(this).removeClass(\'' + cls + '-close-over\');"></div>' + header
+				+ '</div><div class="' + cls + '-body">' + content + '</div>';
 //		if (zk.ie && console.offsetHeight) {}
 //		console.scrollTop = console.scrollHeight;
 	}
