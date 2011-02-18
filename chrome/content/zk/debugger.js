@@ -60,7 +60,11 @@ function _dumpAttrs(wgt) {
     				if (_specialIgnore[wgt.widgetName] && _specialIgnore[wgt.widgetName][key])
     					continue;
     				
-    				var value = wgt[nm]();
+    				var value;
+    				try {
+    					value = wgt[nm]();
+    				} catch (e) {}
+    					
     				if (typeof value != 'object' && typeof value != 'function' && value != null && value !== '') {
     					if (_defaultIgnore[key] === undefined) {
     						if (key != 'zclass' || value != 'z-' + wgt.widgetName) {
