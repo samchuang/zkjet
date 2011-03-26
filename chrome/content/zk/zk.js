@@ -36,18 +36,19 @@ if (!Firebug.prefDomain)
 Firebug.ZKModel = extend(Firebug.Module, {
 	  ZKService: "zk.serviceURL",
     showPanel: function(browser, panel) { 
-		var obj = FirebugContext.window.wrappedJSObject || FirebugContext.window,
-  			zk = obj.zk;
-  		
-  		$("outDomBtn").style.display = zk && zk.version ? "block" : "none";
-  		$("outZulBtn").style.display = zk && zk.version ? "block" : "none";
-  		
+		if (browser.contentWindow) {
+			var obj = browser.contentWindow.wrappedJSObject || browser.contentWindow,
+				zk = obj.zk;
+			
+			browser.chrome.$("outDomBtn").style.display = zk && zk.version ? "block" : "none";
+			browser.chrome.$("outZulBtn").style.display = zk && zk.version ? "block" : "none";
+		}
 		var isZKPanel = panel && panel.name == panelName,
 			hwButtons = browser.chrome.$("fbZKButtons");
       collapse(hwButtons, !isZKPanel); 
     },
     onOutDomBtn: function (context) {
-    	var obj = FirebugContext.window.wrappedJSObject || FirebugContext.window,
+    	var obj = context.window.wrappedJSObject || context.window,
   			zk = obj.zk;
   		if (!zk || !zk.version) {
   			alert("This is not ZK 5 version!");
@@ -65,7 +66,7 @@ Firebug.ZKModel = extend(Firebug.Module, {
   			});
     },
     onOutZulBtn: function (context) {
-    	var obj = FirebugContext.window.wrappedJSObject || FirebugContext.window,
+    	var obj = context.window.wrappedJSObject || context.window,
   			zk = obj.zk;
   		if (!zk || !zk.version) {
   			alert("This is not ZK 5 version!");
