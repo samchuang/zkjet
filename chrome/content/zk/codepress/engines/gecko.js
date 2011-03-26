@@ -63,7 +63,7 @@ CodePress = {
 			evt.preventDefault();
 		}
 		else if(charCode==118 && evt.ctrlKey)  { // handle paste
-		 	top.setTimeout(function(){CodePress.syntaxHighlight('generic');},100);
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},100);
 		}
 		else if(charCode==99 && evt.ctrlKey)  { // handle cut
 		 	//alert(window.getSelection().getRangeAt(0).toString().replace(/\t/g,'FFF'));
@@ -110,6 +110,9 @@ CodePress = {
 		if(flag != 'init') { window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));}
 		editor = CodePress.getEditor();
 		o = editor.innerHTML;
+		if (flag == 'paste') {
+			o = o.replace(/&nbsp;/g,' ');
+		}
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
 		x = z = this.split(o,flag);
