@@ -4,6 +4,7 @@
     <script src="chrome://zk/content/zk.js" type="application/x-javascript"/>
     <script src="chrome://zk/content/zkscript.js" type="application/x-javascript"/>
     <script src="chrome://zk/content/zkpalette.js" type="application/x-javascript"/>
+    <script src="chrome://zk/content/zklinks.js" type="application/x-javascript"/>
 
     <commandset id="mainCommandSet"> 
         <command id="cmd_TryMeBtn" oncommand="Firebug.ZKModel.onTryMeBtn(FirebugContext)"/>
