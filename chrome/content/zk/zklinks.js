@@ -27,39 +27,45 @@ ZKLinks.prototype = extend(Firebug.Panel, {
     title: "ZK Links",
 	initialize: function() {
 		Firebug.Panel.initialize.apply(this, arguments);
+      	zkLoadCSSDirect("chrome://zk/skin/zk.css", this.document);
 		ZKLinksTag.bodyTag.append(null, this.panelNode, null);
 	},
+    show: function () {
+    	if (Firebug.isDetached()) {
+    		zkLoadCSSDirect("chrome://zk/skin/zk.css", this.document);
+    	}
+    }
 });
 
 var ZKLinksTag = domplate(Firebug.Rep, {
     bodyTag:
-    UL(
+    UL({"class": "zklinks"},
         LI(
-			A({onclick: "$onClick", which:'main'},
+			A({"class": "zklink", onclick: "$onClick", which:'main'},
             "Home")
         ),
         LI(
-			A({onclick: "$onClick", which:'forum'},
+			A({"class": "zklink", onclick: "$onClick", which:'forum'},
             "Forum")
         ),
         LI(
-			A({onclick: "$onClick", which:'demo'},
+			A({"class": "zklink", onclick: "$onClick", which:'demo'},
             "Demo")
         ),
         LI(
-			A({onclick: "$onClick", which:'docs'},
+			A({"class": "zklink", onclick: "$onClick", which:'docs'},
             "Document")
         ),
         LI(
-			A({onclick: "$onClick", which:'javaAPI'},
+			A({"class": "zklink", onclick: "$onClick", which:'javaAPI'},
             "Java Doc")
         ),
         LI(
-			A({onclick: "$onClick", which:'jsAPI'},
+			A({"class": "zklink", onclick: "$onClick", which:'jsAPI'},
             "Javascript Doc")
         ),
         LI(
-			A({onclick: "$onClick", which:'zkfiddle'},
+			A({"class": "zklink", onclick: "$onClick", which:'zkfiddle'},
             "ZK Fiddle")
         )
     ),

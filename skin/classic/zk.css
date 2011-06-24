@@ -35,3 +35,12 @@
     border-color: #7F7D67 !important;
     background-color: #D8D5C5 !important;
 }
+.zklinks li {
+	padding: 2px 0;
+}
+.zklink {
+	font-size: 12px;
+}
+.zklink:hover {
+	text-decoration: underline;
+}
