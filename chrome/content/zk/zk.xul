@@ -7,16 +7,16 @@
     <script src="chrome://zk/content/zklinks.js" type="application/x-javascript"/>
 
     <commandset id="mainCommandSet"> 
-        <command id="cmd_TryMeBtn" oncommand="Firebug.ZKModel.onTryMeBtn(FirebugContext)"/>
-        <command id="cmd_OutDomBtn" oncommand="Firebug.ZKModel.onOutDomBtn(FirebugContext)"/>
-        <command id="cmd_OutZulBtn" oncommand="Firebug.ZKModel.onOutZulBtn(FirebugContext)"/>
+        <command id="cmd_TryMeBtn" oncommand="Firebug.ZKModel.onTryMeBtn(Firebug.currentContext)"/>
+        <command id="cmd_OutDomBtn" oncommand="Firebug.ZKModel.onOutDomBtn(Firebug.currentContext)"/>
+        <command id="cmd_OutZulBtn" oncommand="Firebug.ZKModel.onOutZulBtn(Firebug.currentContext)"/>
     </commandset> 
     
     <toolbar id="fbToolbar" align="center"> 
         <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center"> 
             <hbox id="fbZKButtons" insertafter="fbNetButtons" collapsed="true">
                 <toolbarseparator/>
-                <toolbarbutton id="editBtn" label="Edit Service" tooltiptext="Edit Service URL" oncommand="Firebug.ZKModel.onChangeURL(FirebugContext)"/>
+                <toolbarbutton id="editBtn" label="Edit Service" tooltiptext="Edit Service URL" oncommand="Firebug.ZKModel.onChangeURL(Firebug.currentContext)"/>
                 <toolbarbutton id="tryMeBtn" tooltiptext="Try Me" command="cmd_TryMeBtn"/>
                 <toolbarbutton id="outDomBtn" tooltiptext="Output Dom Tree" command="cmd_OutDomBtn"/>
                 <toolbarbutton id="outZulBtn" tooltiptext="Output Widget Tree To Zul" command="cmd_OutZulBtn"/>
@@ -26,7 +26,7 @@
    <!-- Add space in status bar for ZK stats -->
 	<statusbar id="status-bar">
 		<statusbarpanel id="zkSP" insertafter="fbStatusBar">
-			<image id="zkSBIcon" label="" onmousedown="Firebug.ZKModel.onClickIcon(FirebugContext, event)"/>
+			<image id="zkSBIcon" label="" onmousedown="Firebug.ZKModel.onClickIcon(Firebug.currentContext, event)"/>
     </statusbarpanel>
 	</statusbar>
 </overlay>

@@ -68,7 +68,7 @@ var ZscriptTag = domplate(Firebug.Rep, {
 				return inf;
 			}
     	return function(event) {
-	  		var obj = FirebugContext.window.wrappedJSObject || FirebugContext.window,
+	  		var obj = Firebug.currentContext.window.wrappedJSObject || Firebug.currentContext.window,
 	    			zkau = obj.zkau,
 	    			zk = obj.zk,
 	    			uuid = obj._zkJetId,
@@ -89,7 +89,7 @@ var ZscriptTag = domplate(Firebug.Rep, {
   		this.getEditor().value = '';
     },
     getEditor: function () {
-    	return FirebugContext.getPanel("ZKScript").panelNode.getElementsByClassName("htmlEditor")[0];
+    	return Firebug.currentContext.getPanel("ZKScript").panelNode.getElementsByClassName("htmlEditor")[0];
     },
     onCopyClick: function(event) {
   		FBL.copyToClipboard(this.getEditor().value);

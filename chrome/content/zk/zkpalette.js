@@ -205,12 +205,12 @@ var PaletteTag = domplate(Firebug.Rep, {
        	for (var n = cate.parentNode.firstChild; n; n = n.nextSibling)
        		if(n == cate) setClass(n, 'seld');
        		else removeClass(n, 'seld');
-       	FirebugContext.getPanel("ZKPalette").panelNode.scrollTop = cate.offsetTop;
+       	Firebug.currentContext.getPanel("ZKPalette").panelNode.scrollTop = cate.offsetTop;
     },
     onItemClick: function(event) {
     	var div = event.target.tagName != "DIV" ? event.target.parentNode: event.target,
     		zcode = div.getAttribute("zcode"),
-    		panel = FirebugContext.getPanel("ZulEditor"),
+    		panel = Firebug.currentContext.getPanel("ZulEditor"),
     		textarea = panel.panelNode.firstChild;
 			textarea.insertCode(zcode, true);
 			setTimeout(function(){textarea.syntaxHighlight('generic');},100);
@@ -268,7 +268,7 @@ ZKPalette.prototype = extend(Firebug.Panel, {
         ];
     },
     onFormat: function () {
-    	var panel = FirebugContext.getPanel("ZulEditor"),
+    	var panel = Firebug.currentContext.getPanel("ZulEditor"),
     		textarea = panel.panelNode.firstChild;
     	textarea.setCode(this.formatting(textarea.getCode()));
     	setTimeout(function(){textarea.syntaxHighlight('generic');},100);
