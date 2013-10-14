@@ -122,15 +122,15 @@ CodePress.languages = {
 	zul : 'ZUL'
 }
 
-
 CodePress.run = function() {
-		CodePress.path = "chrome://zk/content/codepress/";
+	CodePress.path = "chrome://zk/content/codepress/";
 	var t = document.getElementById('zulInp');
-			id = t.id;
-			t.id = id+'_cp';
-			var ifr = new CodePress(t);
-			ifr.id = id;
-			ifr.sid = t.sid;
-			t.parentNode.insertBefore(ifr, t);	
+	var	id = t.id;
+	t.id = id+'_cp';
+	var ifr = new CodePress(t);
+	ifr.id = id;
+	ifr.sid = t.sid;
+	t.parentNode.insertBefore(ifr, t);
 }
+
 setTimeout(CodePress.run);

@@ -38,10 +38,10 @@ Firebug.ZKModel = extend(Firebug.Module, {
     showPanel: function(browser, panel) { 
 		if (browser.contentWindow) {
 			var obj = browser.contentWindow.wrappedJSObject || browser.contentWindow,
-				zk = obj.zk;
-			
-			browser.chrome.$("outDomBtn").style.display = zk && zk.version ? "block" : "none";
-			browser.chrome.$("outZulBtn").style.display = zk && zk.version ? "block" : "none";
+				zk = obj.zk,
+				display = zk && zk.version ? "block" : "none";
+			$("outDomBtn").style.display = display;
+			$("outZulBtn").style.display = display;
 		}
 		var isZKPanel = panel && panel.name == panelName,
 			hwButtons = browser.chrome.$("fbZKButtons");
@@ -69,7 +69,6 @@ Firebug.ZKModel = extend(Firebug.Module, {
     	var obj = context.window.wrappedJSObject || context.window,
   			zk = obj.zk;
   		if (!zk || !zk.version) {
-  			alert("This is not ZK 5 version!");
   			$("outZulBtn").style.display = "none";
   			return;
   		}
@@ -83,7 +82,6 @@ Firebug.ZKModel = extend(Firebug.Module, {
 	  			if (obj.zDebug.dumpWidgetTree4Zul)
 	  				obj.zDebug.dumpWidgetTree4Zul(zk.Desktop._dt.firstChild);
 	  			else {
-	  				alert("This is not a latest ZK 5 version!");
 	  				$("outZulBtn").style.display = "none";
 	  			}
 			}
@@ -98,16 +96,16 @@ Firebug.ZKModel = extend(Firebug.Module, {
     		el = docWrapper.createElement("form"),
     		service = Firebug.ZKModel.getPref(Firebug.prefDomain, this.ZKService);
 		service = service.split(",")[0];
-		
-    	if (!doc1Wrapper.body) {
-    		alert("Please open a correct tab!");
-    		return;
-    	}
-    	
 		if (!ZKPanel.trim(service).length) {
 			alert("Service URL cannot be empty!");
 			return;
 		}
+		if (!doc1Wrapper.body) {
+			content.wrappedJSObject.location= service;
+			zulData = panel.panelNode.firstChild.getCode();
+			return;
+		}
+		
 		el.action = service;
 		el.method = "post";
 		var inp = docWrapper.createElement("INPUT");
@@ -178,46 +176,68 @@ ZKPanel.prototype = extend(Firebug.Panel, {
     //searchable: true,
 
     initialize: function(context, doc) {
-      Firebug.Panel.initialize.apply(this, arguments);
-      var zulInp = doc.getElementById("zulInp");
-      if (zulInp) {
-      	if (zulInp.sid == context.uid)
-      		return;
-      	zulInp.sid = context.uid;
-      	var cp = doc.getElementById("zulInp_cp");
-      	if (cp) {
-      		cp.value = zulInp.getCode();
-      		this.panelNode.appendChild(cp);
-      	}
-      	this.panelNode.insertBefore(zulInp, cp);
-      	return;
-      }
-      var scriptSource = getResource("chrome://zk/content/codepress/codepress.js");
-      addScript(doc, "_codepress", scriptSource);
-      var textarea = doc.createElement("textarea");
-      textarea.className = "htmlEditor codepress zul fullPanelEditor";
-      textarea.id="zulInp";
-      textarea.sid = context.uid;
-      if (zulData)
-      	textarea.value = zulData;
-      else
-      	textarea.value ="<zk>\n\r</zk>";
-      this.panelNode.appendChild(textarea);
+		Firebug.Panel.initialize.apply(this, arguments);
+		var zulInp = doc.getElementById("zulInp");
+		if (zulInp) {
+			if (zulInp.sid == context.uid) {
+      			return;
+      		}
+			zulInp.sid = context.uid;
+			var cp = doc.getElementById("zulInp_cp");
+			if (cp) {
+				cp.value = zulInp.getCode();
+				this.panelNode.appendChild(cp);
+			}
+	      	this.panelNode.insertBefore(zulInp, cp);
+			return;
+		}
+		var scriptSource = getResource("chrome://zk/content/codepress/codepress.js");
+		Services.scriptloader.loadSubScript("chrome://zk/content/codepress/codepress.js",
+												this, "UTF-8" /* The script's encoding */);
+		var textarea = doc.createElement("textarea");
+		textarea.className = "htmlEditor codepress zul fullPanelEditor";
+		textarea.id="zulInp";
+		textarea.sid = context.uid;
+		if (zulData) {
+			textarea.value = zulData;
+		} else
+		textarea.value ="<zk>\n\r</zk>";
+		this.panelNode.appendChild(textarea);
     },
     show: function() {
-    	var zulInp = this.document.getElementById("zulInp");
-      if (zulInp) {
-      	if (zulInp.sid == this.context.uid)
-      		return;
-      	zulInp.sid = this.context.uid;
-      	var cp = this.document.getElementById("zulInp_cp");
-      	if (cp) {
-      		cp.value = zulInp.getCode();
-      		this.panelNode.appendChild(cp);
-      	}
-      	this.panelNode.insertBefore(zulInp, cp);
-      }
-    },
+		this.showToolbarButtons("fbZKButtons", true);
+		var contentWrapper = new XPCNativeWrapper(this.context.window, 'doc'),
+			docWrapper = new XPCNativeWrapper(contentWrapper.document, 'body'),
+			service = Firebug.ZKModel.getPref(Firebug.prefDomain, Firebug.ZKModel.ZKService),
+			service = service.split(",")[0],
+			win = Components.classes['@mozilla.org/appshell/window-mediator;1']
+						.getService(Components.interfaces.nsIWindowMediator)
+						.getMostRecentWindow('navigator:browser');
+		if (!docWrapper.body) {
+			let prompts = 
+				Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(Ci.nsIPromptService);
+
+			if (prompts.confirm(window, "Open ZK Service URL", "Would you like to open ZK Service URL?")) {
+				win.gBrowser.contentWindow.location.href = service;
+			}
+		}
+		var zulInp = this.document.getElementById("zulInp");
+		if (zulInp) {
+			if (zulInp.sid == this.context.uid) {
+				return;
+			}
+			zulInp.sid = this.context.uid;
+			var cp = this.document.getElementById("zulInp_cp");
+			if (cp) {
+				cp.value = zulInp.getCode();
+				this.panelNode.appendChild(cp);
+			}
+			this.panelNode.insertBefore(zulInp, cp);
+		}
+	},
+	hide: function() {
+		this.showToolbarButtons("fbZKButtons", false);
+	},
     getOptionsMenuItems: function() {
    			return [
             {label: "Open...", nol10n: true, command: bind(this.onOpen, this) },

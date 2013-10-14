@@ -33,6 +33,7 @@ const categories = [
 	},
 	{name: "Basic",
 		items:[
+			{text: "a", tags: "<a></a>"},
 			{text: "button", tags: "<button label='' onClick=''/>"},
 			{text: "html", tags: "<html><![CDATA[\n\r]]></html>"},
 			{text: "iframe", tags: "<iframe src=''/>"},
@@ -55,7 +56,8 @@ const categories = [
 			{text: "chart"},
 			{text: "captcha"},
 			{text: "progressmeter"},
-			{text: "timer", tags: "<timer running='true' repeat='false' onTimer=''/>"}
+			{text: "timer", tags: "<timer running='true' repeat='false' onTimer=''/>"},
+			{text: "combobutton", tags: "<combobutton label=''><popup></popup></combobutton>"}
 		]
 	},
 	{name: "Input",
@@ -77,7 +79,12 @@ const categories = [
 			{text: "slider"},
 			{text: "spinner"},
 			{text: "textbox"},
-			{text: "timebox"}
+			{text: "timebox"},
+			{text: "dropupload", tags: "<dropupload content='' onUpload='' />"},
+			{text: "selectbox", tags: "<selectbox model=''><template name='model'></template></selectbox>"},
+			{text: "chosenbox", tags: "<chosenbox model='' />"},
+			{text: "colorbox"},
+			{text: "doublespinner"}
 		]
 	},
 	{name: "Container",
@@ -87,7 +94,9 @@ const categories = [
 			{text: "caption"},
 			{text: "div", tags: "<div>\n\r</div>"},
 			{text: "hbox", tags: "<hbox>\n\r</hbox>"},
+			{text: "hlayout", tags: "<hlayout>\n\r</hlayout>"},
 			{text: "vbox", tags: "<vbox>\n\r</vbox>"},
+			{text: "vlayout", tags: "<vlayout>\n\r</vlayout>"},
 			{text: "box", tags: "<box>\n\r</box>"},
 			{text: "span", tags: "<span>\n\r</span>"},
 			{text: "splitter"},
@@ -95,10 +104,11 @@ const categories = [
 			{text: "tabs", tags: "<tabs>\n\r</tabs>"},
 			{text: "tab", tags: "<tab label=''/>"},
 			{text: "tabpanels", tags: "<tabpanels>\n\r</tabpanels>"},
-			{text: "tabpanel", tags: "<tabpanel>\n\r</tabpanel>"}
+			{text: "tabpanel", tags: "<tabpanel>\n\r</tabpanel>"},
+			{text: "idspace", tags: "<idspace>\n\r</idspace>"}
 		]
 	},
-	{name: "Listbox & Grid",
+	{name: "Listbox",
 		items:[
 			{text: "listbox", tags: "<listbox fixedLayout='true' vflex='false'>\n\r</listbox>"},
 			{text: "listhead", tags: "<listhead>\n\r</listhead>"},
@@ -110,16 +120,19 @@ const categories = [
 			{text: "listgroup", tags: "<listgroup label=''/>"},
 			{text: "listgroupfoot", tags: "<listgroupfoot label=''/>"},
 			{text: "auxhead", tags: "<auxhead>\n\r</auxhead>"},
-			{text: "auxheader", tags: "<auxheader label=''/>"}
+			{text: "auxheader", tags: "<auxheader label=''/>"},
+			{text: "biglistbox", tags: "<biglistbox></biglistbox>"}
 		]	
 	},
 	{name: "Grid",
 		items:[
 			{text: "grid", tags: "<grid fixedLayout='true' vflex='false'>\n\r</grid>"},
+			{text: "frozen", tags: "<frozen columns='1'/>"},
 			{text: "columns", tags: "<columns>\n\r</columns>"},
 			{text: "column", tags: "<column label=''/>"},
 			{text: "rows", tags: "<rows>\n\r</rows>"},
 			{text: "row", tags: "<row>\n\r</row>"},
+			{text: "cell", tags: "<cell rowspan='3'></cell>"},
 			{text: "detail", tags: "<detail>\n\r</detail>"},
 			{text: "foot", tags: "<foot>\n\r</foot>"},
 			{text: "footer", tags: "<footer label=''/>"},
@@ -159,7 +172,12 @@ const categories = [
 			{text: "portallayout", tags: "<portallayout>\n\r</portallayout>"},
 			{text: "portalchildren", tags: "<portalchildren>\n  <panel>\n    <panelchildren>\n\r    </panelchildren>\n  </panel>\n</portalchildren>"},
 			{text: "tablelayout", tags: "<borderlayout>\n\r</borderlayout>"},
-			{text: "tablechildren", tags: "<tablechildren>\n  <panel>\n    <panelchildren>\n\r    </panelchildren>\n  </panel>\n</tablechildren>"}
+			{text: "tablechildren", tags: "<tablechildren>\n  <panel>\n    <panelchildren>\n\r    </panelchildren>\n  </panel>\n</tablechildren>"},
+			{text: "absolutelayout", tags: "<absolutelayout>\n  <absolutechildren x='' y=''></absolutechildren>\n  </absolutelayout>"},
+			{text: "absolutechildren", tags: "<absolutechildren x='' y=''></absolutechildren>"},
+			{text: "anchorlayout", tags: "<anchorlayout>\n  <anchorchildren anchor=''></anchorchildren>\n  </anchorlayout>"},
+			{text: "anchorchildren", tags: "<anchorchildren anchor=''></anchorchildren>"},
+			{text: "cardlayout", tags: "<cardlayout selectedIndex=''></cardlayout>"}
 		]
 	},
 	{name: "Other",

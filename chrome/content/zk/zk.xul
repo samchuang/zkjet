@@ -12,8 +12,9 @@
         <command id="cmd_OutZulBtn" oncommand="Firebug.ZKModel.onOutZulBtn(Firebug.currentContext)"/>
     </commandset> 
     
-    <toolbar id="fbToolbar" align="center"> 
-        <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center"> 
+    <toolbar id="fbToolbar" align="center" role="toolbar"> 
+        <hbox id="fbToolbarInner" class="innerToolbar"
+            insertbefore="fbDetachButton" flex="1" align="center"> 
             <hbox id="fbZKButtons" insertafter="fbNetButtons" collapsed="true">
                 <toolbarseparator/>
                 <toolbarbutton id="editBtn" label="Edit Service" tooltiptext="Edit Service URL" oncommand="Firebug.ZKModel.onChangeURL(Firebug.currentContext)"/>
